@@ -38,7 +38,12 @@ public class Posts_Chapter07 {
 	//SQLクリエ準備メソッド
 	private static void createStatement() {
 		// SQLクエリを準備
-        String insertSql = "INSERT INTO posts (user_id, posted_at, post_content, likes) VALUES (?, ?, ?, ?)";
+        String insertSql = "INSERT INTO posts (user_id, posted_at, post_content, likes) VALUES "
+        		+ "(1003, '2023-02-08', '昨日の夜は徹夜でした・・', 13),"
+        		+ "(1002, '2023-02-08', 'お疲れ様です！', 12),"
+        		+ "(1003, '2023-02-09', '今日も頑張ります！', 18),"
+        		+ "(1001, '2023-02-09', '無理は禁物ですよ！', 17),"
+        		+ "(1002, '2023-02-10', '明日から連休ですね！', 20)";
         String selectSql = "SELECT * FROM posts WHERE user_id = 1002;";
         try {
         	insertStatement = con.prepareStatement(insertSql);
@@ -52,30 +57,16 @@ public class Posts_Chapter07 {
 	}
 	
 	//投稿データを追加メソッド
-	private static void executeUpdate() {
-		//post情報リスト
-	    String[][] postList = {
-	    		{"1003", "2023-02-08", "昨日の夜は徹夜でした・・", "13"},
-	    		{"1002", "2023-02-08", "お疲れ様です！", "12"},
-	    		{"1003", "2023-02-09", "今日も頑張ります！", "18"},
-	    		{"1001", "2023-02-09", "無理は禁物ですよ！", "17"},
-	    		{"1002", "2023-02-10", "明日から連休ですね！", "20"}
-	    };
-        try{
-        	int rowCnt = 0;
-        	for( int i = 0; i < postList.length; i++ ) {
-            // SQLクエリの「?」部分をリストのデータに置き換え
-        	insertStatement.setString(1, postList[i][0]); // id
-            insertStatement.setString(2, postList[i][1]); // date
-            insertStatement.setString(3, postList[i][2]); //content
-            insertStatement.setString(4, postList[i][3]); //likes        
+	private static void executeUpdate() {  
             // SQLクエリを実行（DBMSに送信）
-			rowCnt += insertStatement.executeUpdate();
-        	}    
-        	System.out.println( rowCnt + "件のレコードが追加されました");
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
+        	int rowCnt;
+			try {
+				rowCnt = insertStatement.executeUpdate();
+				System.out.println( rowCnt + "件のレコードが追加されました");
+			} catch (SQLException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}   
 	}
 	
 	
